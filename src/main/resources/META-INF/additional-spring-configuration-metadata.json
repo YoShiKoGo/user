@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "server.tomcat.maxHttpHeaderSize",
+      "type": "java.lang.String",
+      "description": "Description for server.tomcat.maxHttpHeaderSize."
+    },
+    {
+      "name": "server.tomcat.maxHttpHeaderSize",
+      "type": "java.lang.String",
+      "description": "Description for server.tomcat.maxHttpHeaderSize."
+    }
+  ] }

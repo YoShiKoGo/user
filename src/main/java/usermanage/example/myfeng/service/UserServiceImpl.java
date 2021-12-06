@@ -115,6 +115,14 @@ public class UserServiceImpl implements IUserService {
         return commonResObject;
     }
 
+    public static void main(String[] args) throws EncryptComponentException {
+        //md5加密
+        String md5Password = DigestUtil.encryptPassword("1q2w3e4r");
+        //加盐 在加密
+        String encrypt = SHAUtil.encrypt(md5Password, SHAUtils.SHA256, SHAUtil.DEFAULT);
+        System.out.println(encrypt);
+    }
+
     /**
      * 查询用户级别所有用户
      */
@@ -656,7 +664,7 @@ public class UserServiceImpl implements IUserService {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss ");
             userPo.setLastUpdate_time(sdf.format(date));
             //更改信息
-            BeanUtils.copyProperties(operatorUserPo, operatorForm);
+            updateuserPO(operatorForm, operatorUserPo);
             userDao.updatePersonal(operatorUserPo);
             commonResObject.setResCode("1");
             commonResObject.setResMsg("更新成功");
@@ -683,5 +691,16 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    private void updateuserPO(OperatorForm operatorForm, UserPo operatorUserPo) {
+        operatorUserPo.setNick_name(operatorForm.getNick_name());
+        operatorUserPo.setEmployee_no(operatorForm.getEmployee_no());
+        operatorUserPo.setEmail(operatorForm.getEmail());
+        operatorUserPo.setMobilePhone(operatorForm.getMobilePhone());
 
+    }
+
+    @Override
+    public UserPo findOneUser(String id) {
+        return userDao.findByUserId(id);
+    }
 }

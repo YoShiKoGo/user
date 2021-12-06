@@ -2,6 +2,7 @@ package usermanage.example.myfeng.common.sessionManage;
 
 
 import usermanage.example.myfeng.po.UserPo;
+import usermanage.example.myfeng.util.BaseUtil;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -30,7 +31,8 @@ public class SessionManage {
         for (String key:keys
              ) {
             HttpSession session = sessionMap.get(key);
-            UserPo userPo = (UserPo) session.getAttribute("user");
+            String user = (String) session.getAttribute("user");
+            UserPo userPo = BaseUtil.toJAVA(user, UserPo.class);
             if(userPo !=null && userPo.getAccount().equals(account)){
                 return session;
             }

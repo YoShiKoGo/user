@@ -1,5 +1,8 @@
 package usermanage.example.myfeng.dao.impl;
 
+import com.alibaba.fastjson.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -25,6 +28,8 @@ public class UserDaoImpl implements IUserDao {
     //注入MongoDBTemplate
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    Logger log = LoggerFactory.getLogger(this.getClass());
     
     /**
      *  保存用户
@@ -72,7 +77,9 @@ public class UserDaoImpl implements IUserDao {
         //update.set("lastLogin_time",user.getLastLogin_time());
         //update.set("lastLogin_ip",user.getLastLogin_ip());
         //更新
-        mongoTemplate.save(userPo,"user");
+        log.info("更新userpo:"+ JSON.toJSONString(userPo));
+        System.out.println("更新userpo:"+ JSON.toJSONString(userPo));
+        mongoTemplate.save(userPo);
     }
 
     /**

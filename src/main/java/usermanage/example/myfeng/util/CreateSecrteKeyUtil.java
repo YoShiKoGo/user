@@ -4,7 +4,7 @@ import com.travelsky.component.encrypt.common.RSAConstant;
 import com.travelsky.component.encrypt.common.exeption.EncryptComponentException;
 import com.travelsky.component.encrypt.rsa.KeyGeneratorUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
+import org.apache.tomcat.util.codec.binary.Base64;
 import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;

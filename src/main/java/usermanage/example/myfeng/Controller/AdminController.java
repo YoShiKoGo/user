@@ -1,7 +1,10 @@
 package usermanage.example.myfeng.Controller;
 
+import com.alibaba.fastjson.JSON;
 import com.travelsky.component.encrypt.common.exeption.EncryptComponentException;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import usermanage.example.myfeng.common.CommonResObject;
@@ -20,7 +23,6 @@ import java.util.List;
 /**
  * 管理控制层
  */
-@Slf4j
 @RestController()
 @RequestMapping("api/admin")
 public class AdminController {
@@ -28,6 +30,8 @@ public class AdminController {
     //注入用户
     @Autowired
     private IUserService userService;
+
+    Logger log = LoggerFactory.getLogger(this.getClass());
 
 
     /**
@@ -39,7 +43,8 @@ public class AdminController {
     public Object modifyUser(@RequestBody OperatorForm operatorForm, HttpServletRequest request) throws ManageException {
         log.info("更新用户");
         //获取当前登录管理用户
-        UserPo operateUserPo = (UserPo) request.getSession().getAttribute("user");
+        String user = (String) request.getSession().getAttribute("user");
+        UserPo operateUserPo = BaseUtil.toJAVA(user, UserPo.class) ;
         if(!BaseUtil.stringNotNull(operatorForm.getRole())){
             throw  new ManageException("请选择修改的用户等级");
         }
@@ -63,6 +68,7 @@ public class AdminController {
             throw new ManageException("无权限修改该用户信息");
         }
         //更新个人资料
+        log.info("更新用户：----"+JSON.toJSONString(operateUserPo));
         CommonResObject commonResObject = userService.updateUser(operateUserPo, operatorForm);
         //更新session中User
         return commonResObject;

@@ -122,7 +122,8 @@ public class SHAUtil {
             pattern = SHAUtils.SHA256;
         }
         //获取盐
-        String salt = getSaltByPassword(password);
+//        String salt = getSaltByPassword(password);
+        String salt = "12345";
         //加密密码
         return doEncrypt(content,pattern,salt,shaHandler);
     }

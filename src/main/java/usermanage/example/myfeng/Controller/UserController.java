@@ -116,8 +116,9 @@ public class UserController {
         //登录
         commonResObject = userService.login(userForm.getUsername(), dePwd, ip);
         //判断返回code 是否验证通过
+        UserPo userPo = null;
         if ("1000".equals(commonResObject.getResCode())) {
-            UserPo userPo = (UserPo) commonResObject.getResObj();
+             userPo = (UserPo) commonResObject.getResObj();
             if ("1".equals(userPo.getLevel())) {
                 //超级管理员
                 userPo.setRole(UserRole.ROLE_ADMIN.toString());
@@ -163,6 +164,7 @@ public class UserController {
             OperatorListVo operatorListVo = new OperatorListVo(userPo);
             commonResObject.setResObj(operatorListVo);
         }
+        request.getSession().setAttribute("user", BaseUtil.toJSON(userPo));
         //返回
         return commonResObject;
     }
@@ -197,9 +199,16 @@ public class UserController {
     @RequestMapping("getUser")
     @ResponseBody
     public Object getUser(String _id,HttpServletRequest request) throws ManageException {
-        log.info("查找一个用户");
+        log.info("查找一个用户"+"_id");
+        UserPo userPo = null;
         //获取当前登录用户
-        UserPo userPo = (UserPo) request.getSession().getAttribute("user");
+        if(BaseUtil.objectNotNull(request.getSession().getAttribute("user"))){
+            String user = (String) request.getSession().getAttribute("user");
+            log.info("查找一个用户"+user);
+            userPo = BaseUtil.toJAVA(user, UserPo.class);
+        }else {
+            userPo = userService.findOneUser(_id);
+        }
         //查找一个用户
         CommonResObject commonResObject = userService.getUserById(_id, userPo);
         return commonResObject;
@@ -226,11 +235,12 @@ public class UserController {
         }
         log.info("更新用户");
         //获取当前登录用户
-        UserPo userPo = (UserPo) request.getSession().getAttribute("user");
+        String  user = (String) request.getSession().getAttribute("user");
+        UserPo userPo = BaseUtil.toJAVA(user, UserPo.class) ;
+//        userService.findUser()
         CommonResObject commonResObject = userService.updateSomeInfo(operatorForm, userPo);
-        request.getSession().setAttribute("user", operatorForm);
+        request.getSession().setAttribute("user", BaseUtil.toJSON(userPo));
         return commonResObject;
-        //更新个人资料
     }
 
 

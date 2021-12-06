@@ -1,6 +1,6 @@
 package usermanage.example.myfeng.util;
 
-import org.apache.commons.codec.binary.Base64;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
 import javax.crypto.Cipher;

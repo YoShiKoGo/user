@@ -76,4 +76,6 @@ public interface IUserService {
      * 添加用户
      */
     CommonResObject creatUser(UserPo onlineUserPo, OperatorForm operatorForm) throws Exception;
+
+    UserPo findOneUser(String id);
 }

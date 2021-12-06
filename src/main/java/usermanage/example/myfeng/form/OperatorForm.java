@@ -33,7 +33,6 @@ public class OperatorForm implements Serializable {
 
     //工号
     private String employee_no;
-
     //密码
     private String password;
 
